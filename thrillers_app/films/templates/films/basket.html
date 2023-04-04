@@ -1,0 +1,36 @@
+{% extends "films/index.html" %}
+{% block page %}
+<div style="display: block; width: 300px; margin-left: auto; margin-right: auto; padding-top: 80px;">
+    <h1>Мое избранное ({{ film.count }})</h1>
+    <a href="{% url 'clear_basket' %}">Очистить избранное</a>
+    <br>
+    <br>
+    <p><a href="#" onclick="history.back();">Назад</a></p>
+    <br>
+</div>
+
+<div class="container">
+    {% for i in film %}
+    <div class="img_film">
+        {% if i.photo %}
+        <a style="border: none;" href="{{ i.get_absolute_url }}">
+            <img class="img_size" src="{{ i.photo.url }}">
+        </a>
+
+        {% else %}
+                <p>NO FOTO__________</p>
+        {% endif %}
+        <a style="color: #0000ff; font-size: 20px; font-weight: bold;" href="{{ i.get_absolute_url }}"><p>{{ i.title }}</p></a>
+        <p>Год: {{ i.year }}</p>
+        <p>Рейтинг: {{ i.rating }}</p>
+        <br>
+        <a style="border: none;" href="{% url 'delete_from_basket' film_pk=i.pk %}">Удалить</a>
+    </div>
+    <br>
+    {% empty %}
+        <p style="margin-left: 30px; font-size: 20px; font-weight: bold; color: blue;">
+            Пусто</p>
+    {% endfor %}
+</div>
+{% endblock %}
+

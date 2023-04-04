@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Вход</title>
+</head>
+<body>
+    <div style="display: flex; flex-direction: column; align-items: center; margin-top: 200px;">
+        {% if messages %}
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+        <h1>Авторизация</h1>
+        <div class="form">
+            <form action="" method="POST">{% csrf_token %}
+            {{ form.as_p }}
+                <button type="submit">Войти</button>
+            </form>
+        </div>
+        <a href="{% url 'index' %}">Назад</a>
+    </div>
+</body>
+</html>
+

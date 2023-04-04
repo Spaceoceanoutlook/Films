@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+{% load genre_tags %}
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{% static 'films/css/films.css' %}">
+    <title>{{ title }}</title>
+</head>
+<body>
+    <header class="header">
+        <div class="createfilm">
+            <a style="margin-right: 10px; font-size: 24px;" href="{% url 'index' %}">Главная</a>
+            <a style="margin-left: 5px; margin-right: 20px; font-size: 24px;" href="{% url 'show_basket' %}">Мое избранное</a>
+            {% get_genre as genres %}
+            {% for genre in genres %}
+            <a style="margin-right: 5px; font-size: 20px;" href="{% url 'film_genre' genre_pk=genre.pk %}">{{ genre }}</a>
+            {% endfor %}
+            <a style="margin-right: 5px;" href="{% url 'show_serials' %}">Сериалы</a>
+            <a style="margin-right: 5px; font-size: 20px;" href="{% url 'show_not_like' %}">Не понравилось</a>
+            {% if request.user.is_authenticated %}
+                Привет, {{ user.username }} |
+                <a href="{% url 'logout' %}">Выйти</a>
+            {% else %}
+            <a style="margin-right: 5px; font-size: 18px; color: blue" href="{% url 'register' %}">Регистрация</a>
+            <a style="margin-right: 5px; font-size: 18px; color: blue" href="{% url 'login' %}">Вход</a>
+            {% endif %}
+        </div>
+        {% block page %}
+        <div style="display: flex; justify-content: center;">
+            {% if messages %}
+                {% for message in messages %}
+                    {{ message }}
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        <div style="display: flex">
+            <div style="display: flex">
+                <p style="margin-left: 130px; font-size: 20px; color: MediumSeaGreen; font-weight: bold">Сортировать по рейтингу</p>
+                <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_rating' ascending=0 %}">Высокий</a>
+                <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_rating' ascending=1 %}">Низкий</a>
+            </div>
+            <div style="display: flex">
+                <p style="margin-left: 130px; font-size: 20px; color: MediumSeaGreen; font-weight: bold">Сортировать по годам</p>
+                <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_year' ascending=0 %}">Новый</a>
+                <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_year' ascending=1 %}">Старый</a>
+            </div>
+            <div>
+                <a style="margin-left: 130px; font-size: 20px; color: MediumSeaGreen; font-weight: bold; border: none" href="{% url 'random_film' %}">Выбрать случайный фильм</a><br><br>
+            </div>
+            <div style="margin-left: 70px;">
+                <form method="POST">
+                    {% csrf_token %}
+                    <input type="search" autocomplete="off" placeholder="Искать" name="user_search">
+                    <button type="submit">Поиск</button>
+                </form>
+            </div>
+        </div>
+    </header>
+
+    <section class="section">
+
+        <p style="margin-left: 95px; padding-top: 50px; font-size: 24px; color: #836FFF;">
+            {% if genre %}
+            Категория: {{ genre }}
+            {% endif %}
+            <br>
+            Всего: {{ films.count }}</p>
+        <div class="container">
+            {% for film in page_obj %}
+            <div class="img_film">
+                {% if film.photo %}
+                <a style="border: none;" href="{{ film.get_absolute_url }}">
+                    <img class="img_size" src="{{ film.photo.url }}">
+                </a>
+                {% else %}
+                    <p>NO FOTO__________</p>
+                {% endif %}
+                <a style="color: #0000ff; font-size: 20px; font-weight: bold;" href="{{ film.get_absolute_url }}"><p>{{ film.title }}</p></a>
+                <p>Год: {{ film.year }}</p>
+                <p>Рейтинг: {{ film.rating }}</p>
+            </div>
+            {% empty %}
+                <p style="margin-left: 30px; font-size: 20px;"><em>Не найдено</em></p>
+            {% endfor %}
+
+        </div>
+        <div style="display: flex; justify-content: center;">
+            {% if page_obj.has_other_pages %}
+            <div style="margin-top: 100px; font-size: 20px; color: blue; font-weight: bold;" >
+                {% if page_obj.has_previous %}
+                <a style="margin-right: 30px; border: none;" href="?page={{ page_obj.previous_page_number }}">Назад</a>
+                {% endif %}
+                {% for page in page_obj.paginator.page_range %}
+                {% if page_obj.number == page %}
+                <a style="margin-left: 10px; font-size: 22; color: #FF7F00; border: none;" href="?page={{ page }}">{{ page }}</a>
+                {% else %}
+                <a style="margin-left: 10px; border: none;" href="?page={{ page }}">{{ page }}</a>
+                {% endif %}
+                {% endfor %}
+                {% if page_obj.has_next %}
+                <a style="margin-left: 40px; border: none;" href="?page={{ page_obj.next_page_number }}">Вперед</a>
+                {% endif %}
+            </div>
+            {% endif %}
+            {% endblock %}
+        </div>
+    </section>
+</body>
+</html>
+
+
+
+
+
