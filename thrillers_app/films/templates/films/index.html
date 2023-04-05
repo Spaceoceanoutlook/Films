@@ -44,19 +44,23 @@
                 <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_rating' ascending=1 %}">Низкий</a>
             </div>
             <div style="display: flex">
-                <p style="margin-left: 130px; font-size: 20px; color: MediumSeaGreen; font-weight: bold">Сортировать по годам</p>
+                <p style="margin-left: 90px; font-size: 20px; color: MediumSeaGreen; font-weight: bold">Сортировать по годам</p>
                 <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_year' ascending=0 %}">Новый</a>
                 <a style="margin-left: 10px; font-size: 20px; border: none;" href="{% url 'sort_by_year' ascending=1 %}">Старый</a>
             </div>
             <div>
-                <a style="margin-left: 130px; font-size: 20px; color: MediumSeaGreen; font-weight: bold; border: none" href="{% url 'random_film' %}">Выбрать случайный фильм</a><br><br>
+                <a style="margin-left: 90px; font-size: 20px; color: MediumSeaGreen; font-weight: bold; border: none" href="{% url 'random_film' %}">Выбрать случайный фильм</a><br><br>
             </div>
-            <div style="margin-left: 70px;">
+            <div style="margin-left: 50px;">
                 <form method="POST">
                     {% csrf_token %}
                     <input type="search" autocomplete="off" placeholder="Искать" name="user_search">
                     <button type="submit">Поиск</button>
                 </form>
+            </div>
+            <div>
+                <p><a style="margin-left: 50px; font-size: 20px; color: blue; font-weight: bold; border: none"
+                        href="{% url 'my_profile' profile_id=request.user.id %}">Мой профиль</a></p>
             </div>
         </div>
     </header>

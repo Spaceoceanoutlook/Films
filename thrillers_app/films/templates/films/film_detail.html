@@ -35,9 +35,8 @@
         <p><a href="{% url 'add_basket' film_pk=film.pk %}">Добавить в избранное</a></p>
         <br>
         <p><a href="{% url 'show_basket' %}">Перейти в избранное</a></p>
-        <br>
     </div>
-
+{% if request.user.is_authenticated %}
 <div style="margin-left: 20px; font-size: 18px;">
     <p style="font-size: 22px;">Комментарии ({{ comment.count }})</p>
     <br>
@@ -46,15 +45,21 @@
     <p>Автор: {{ i.author }}</p>
     <p>Комментарий: {{ i }}</p>
     <br>
+    {% if request.user == i.author %}
     <p><a href="{% url 'delete_comment' film_pk=film.pk comment_pk=i.pk %}">Удалить комментарий</a></p>
+    {% endif %}
     <br>
     {% endfor %}
-
 </div>
+
 <div style="margin-top: 20px; margin-left: 20px;">
     <form action="" method="POST">{% csrf_token %}
-        {{ form.as_p }}
-    <input type="submit" value="Добавить">
+        {{ form.as_p }} <br>
+    <input style="font-size: 18px; background-color: yellow;" type="submit" value="Добавить">
+        <br><br>
     </form>
 </div>
+{% else %}
+<p style="margin-left: 20px; font-size: 20px; font-weight: bold;">Чтобы просматривать и добавлять комментарии - <a href="{% url 'login' %}">Войдите</a> или <a href="{% url 'register' %}">Зарегистрируйтесь</a></p>
+{% endif %}
 {% endblock %}

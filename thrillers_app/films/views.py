@@ -4,6 +4,7 @@ from films.forms import CommentForm, UserRegForm, UserLoginForm
 from films.models import Film, Comment, Genre, Country, Basket
 from django.contrib import messages
 from django.contrib.auth import login, logout
+from django.contrib.auth.models import User
 
 
 gp = None
@@ -289,3 +290,13 @@ def search(request, films):
         else:
             films = Film.objects.none()
     return films
+
+
+def my_profile(request, profile_id):
+    user = User.objects.get(id=profile_id)
+    comment = Comment.objects.filter(author_id=profile_id)
+    title = f'{user.username}'
+    context = {'comment': comment, 'title': title}
+    return render(request, 'films/user_profile.html', context=context)
+
+

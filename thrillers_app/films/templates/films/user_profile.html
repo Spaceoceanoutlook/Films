@@ -1,0 +1,16 @@
+{% extends "films/index.html" %}
+{% block page %}
+<div style="margin-left: 20px; font-size: 20px;">
+    <h2>Комментарии пользователя "{{ title }}":</h2>
+    {% for i in comment %}
+    <div>
+    <b>Название фильма</b>
+    {{ i.film }}
+    <br>
+    <p><b>Комментарий:</b></p>
+    {{ i.text}}
+    <br><br>
+</div>
+{% endfor %}
+</div>
+{% endblock %}
