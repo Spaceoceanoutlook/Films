@@ -26,8 +26,6 @@ def index(request):
 def film_detail(request, film_pk):
     film = get_object_or_404(Film, pk=film_pk)
     comment = Comment.objects.filter(film=film)
-    genre = Genre.objects.filter(film=film_pk)
-    country = Country.objects.filter(film=film_pk)
     title = film.title
     if request.method == "POST":
         form = CommentForm(request.POST)
@@ -39,7 +37,7 @@ def film_detail(request, film_pk):
             return redirect('film-info', film_pk=film.pk)
     else:
         form = CommentForm()
-    context = {'film': film, 'comment': comment, 'genre': genre, 'country': country, 'form': form, 'title': title}
+    context = {'film': film, 'comment': comment, 'form': form, 'title': title}
     return render(request, 'films/film_detail.html', context=context)
 
 

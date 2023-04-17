@@ -50,6 +50,10 @@ class Genre(models.Model):
     def __str__(self):
         return self.title
 
+    class Meta:
+        verbose_name = 'Жанр'
+        verbose_name_plural = 'Жанры'
+
 
 class Country(models.Model):
     title = models.CharField(max_length=100, blank=True, verbose_name='Страна', default='Unknown')
@@ -58,6 +62,10 @@ class Country(models.Model):
 
     def __str__(self):
         return self.title
+
+    class Meta:
+        verbose_name = 'Страна'
+        verbose_name_plural = 'Страны'
 
 
 class Basket(models.Model):

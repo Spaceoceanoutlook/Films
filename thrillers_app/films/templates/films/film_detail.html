@@ -12,13 +12,13 @@
         <h1>{{ film.title }}</h1>
         <p>{{ film.year }}</p>
         <p><em>Страна</em>
-            {% for c in country %}
-            {{ c }}
+            {% for c in film.country.all %}
+            {{ c.title }}
             {% endfor %}
         </p>
         <p><em>Жанр</em>
-            {% for g in genre %}
-            {{ g }}
+            {% for g in film.genre.all %}
+            {{ g.title }}
             {% endfor %}
         </p>
         <p><em>Рейтинг на кинопоиске</em> <b>{{ film.rating }}</b></p>
