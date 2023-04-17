@@ -59,8 +59,10 @@
                 </form>
             </div>
             <div>
+                {% if request.user.id %}
                 <p><a style="margin-left: 50px; font-size: 20px; color: blue; font-weight: bold; border: none"
                         href="{% url 'my_profile' profile_id=request.user.id %}">Мой профиль</a></p>
+                {% endif%}
             </div>
         </div>
     </header>
