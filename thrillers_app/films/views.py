@@ -1,11 +1,10 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from films.forms import CommentForm, UserRegForm, UserLoginForm
-from films.models import Film, Comment, Genre, Country, Basket
+from films.models import Film, Comment, Genre, Basket
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-
 
 gp = None
 
@@ -147,7 +146,7 @@ def sort_by_rating(request, ascending):
     if ascending == 1:
         if gp is None:
             films = Film.objects.filter(recommendation=True).order_by('rating')
-            genre = Genre.objects.get(pk=gp)
+            genre = Genre.objects.none()
         elif gp == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('rating')
             genre = 'Сериалы'
@@ -160,7 +159,7 @@ def sort_by_rating(request, ascending):
     else:
         if gp is None:
             films = Film.objects.filter(recommendation=True).order_by('-rating')
-            genre = Genre.objects.get(pk=gp)
+            genre = Genre.objects.none()
         elif gp == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('-rating')
             genre = 'Сериалы'
@@ -184,7 +183,7 @@ def sort_by_year(request, ascending):
     if ascending == 1:
         if gp is None:
             films = Film.objects.filter(recommendation=True).order_by('year')
-            genre = Genre.objects.get(pk=gp)
+            genre = Genre.objects.none()
         elif gp == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('year')
             genre = 'Сериалы'
@@ -197,7 +196,7 @@ def sort_by_year(request, ascending):
     else:
         if gp is None:
             films = Film.objects.filter(recommendation=True).order_by('-year')
-            genre = Genre.objects.get(pk=gp)
+            genre = Genre.objects.none()
         elif gp == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('-year')
             genre = 'Сериалы'
@@ -296,5 +295,3 @@ def my_profile(request, profile_id):
     title = f'{user.username}'
     context = {'comment': comment, 'title': title}
     return render(request, 'films/user_profile.html', context=context)
-
-

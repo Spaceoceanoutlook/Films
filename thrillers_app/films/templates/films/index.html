@@ -72,6 +72,8 @@
         <p style="margin-left: 95px; padding-top: 50px; font-size: 24px; color: #836FFF;">
             {% if genre %}
             Категория: {{ genre }}
+            {% else %}
+            Категория: Все категории
             {% endif %}
             <br>
             Всего: {{ films.count }}</p>
