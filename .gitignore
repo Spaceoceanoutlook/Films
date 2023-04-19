@@ -2,4 +2,4 @@
 /.idea/
 db.sqlite3
 thrillers_app/films/static/films/img/
-thrillers_app/films/__pycache__/
+**/__pycache__/
