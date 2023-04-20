@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index, film_detail, film_genre, delete_comment, show_basket, \
     add_basket, delete_from_basket, clear_basket, show_serials, sort_by_rating, sort_by_year, random_film, \
-    show_not_like, register, user_login, user_logout, my_profile
+    show_not_like, register, user_login, user_logout, my_profile, search
 
 urlpatterns = [
     path('', index, name='index'),
@@ -24,4 +24,6 @@ urlpatterns = [
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
     path('user_profile/<int:profile_id>/', my_profile, name='my_profile'),
+    path('search', search, name='search'),
+
 ]

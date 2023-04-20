@@ -1,0 +1,23 @@
+{% extends "films/index.html" %}
+{% block page %}
+
+<div class="container">
+    {% for film in films %}
+    <div class="img_film">
+        {% if film.photo %}
+        <a style="border: none;" href="{{ film.get_absolute_url }}">
+            <img class="img_size" src="{{ film.photo.url }}">
+        </a>
+        {% else %}
+            <p>NO FOTO__________</p>
+        {% endif %}
+        <a style="color: #0000ff; font-size: 20px; font-weight: bold;" href="{{ film.get_absolute_url }}"><p>{{ film.title }}</p></a>
+        <p>Год: {{ film.year }}</p>
+        <p>Рейтинг: {{ film.rating }}</p>
+    </div>
+    {% empty %}
+        <p style="margin-left: 30px; font-size: 20px;"><em>Не найдено</em></p>
+    {% endfor %}
+</div>
+
+{% endblock %}

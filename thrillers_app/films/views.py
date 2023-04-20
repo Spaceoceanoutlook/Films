@@ -13,7 +13,6 @@ def index(request):
     global gp
     gp = None
     films = Film.objects.filter(recommendation=True).order_by('-id')
-    films = search(request, films)
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_num)
@@ -46,7 +45,6 @@ def film_genre(request, genre_pk):
     films = Film.objects.filter(genre=genre_pk).filter(recommendation=True).order_by('-id')
     genre = Genre.objects.get(pk=gp)
     title = 'Фильмы и сериалы'
-    films = search(request, films)
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_num)
@@ -132,7 +130,6 @@ def show_serials(request):
     gp = 'serials'
     title = 'Сериалы'
     films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('-id')
-    films = search(request, films)
     genre = 'Сериалы'
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -169,7 +166,6 @@ def sort_by_rating(request, ascending):
         else:
             films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('-rating')
             genre = Genre.objects.get(pk=gp)
-    films = search(request, films)
     title = 'Фильмы и сериалы'
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -206,7 +202,6 @@ def sort_by_year(request, ascending):
         else:
             films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('-year')
             genre = Genre.objects.get(pk=gp)
-    films = search(request, films)
     title = 'Фильмы и сериалы'
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -231,7 +226,6 @@ def show_not_like(request):
     global gp
     gp = 'not_like'
     films = Film.objects.filter(recommendation=False).order_by('-id')
-    films = search(request, films)
     title = 'Не понравилось'
     genre = 'Не понравилось'
     paginator = Paginator(films, 6)
@@ -277,16 +271,19 @@ def user_logout(request):
     return redirect('login')
 
 
-def search(request, films):
+def search(request):
+    films = Film.objects.all()
     if request.method == 'POST':
-        user_search = request.POST.get('user_search')
-        for i in Film.objects.all():
+        user_search = request.POST.get('search')
+        for i in films:
             if i.title.lower() == user_search.lower() or user_search.lower() in i.title.lower():
                 films = Film.objects.filter(title__icontains=f'{i.title}')
                 break
         else:
             films = Film.objects.none()
-    return films
+    title = 'Поиск'
+    context = {'films': films, 'title': title}
+    return render(request, 'films/search.html', context=context)
 
 
 def my_profile(request, profile_id):

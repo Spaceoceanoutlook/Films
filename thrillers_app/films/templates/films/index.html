@@ -52,9 +52,9 @@
                 <a style="margin-left: 90px; font-size: 20px; color: MediumSeaGreen; font-weight: bold; border: none" href="{% url 'random_film' %}">Выбрать случайный фильм</a><br><br>
             </div>
             <div style="margin-left: 50px;">
-                <form method="POST">
+                <form method="POST" action="/search">
                     {% csrf_token %}
-                    <input type="search" autocomplete="off" placeholder="Искать" name="user_search">
+                    <input type="search" autocomplete="off" placeholder="Искать" name="search">
                     <button type="submit">Поиск</button>
                 </form>
             </div>
