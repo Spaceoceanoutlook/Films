@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
 from films.forms import CommentForm, UserRegForm, UserLoginForm
-from films.models import Film, Comment, Genre, Basket
+from films.models import Film, Comment, Genre, Basket, Country
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
@@ -150,6 +150,13 @@ def sort_by_rating(request, ascending):
         elif gp == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('rating')
             genre = 'Не понравилось'
+        elif gp == 'rus':
+            country_1 = Country.objects.get(title='СССР')
+            country_2 = Country.objects.get(title='Россия')
+            films_1 = Film.objects.filter(country=country_1.pk)
+            films_2 = Film.objects.filter(country=country_2.pk)
+            films = (films_1 | films_2).filter(recommendation=True).order_by('rating')
+            genre = 'Русские / советские'
         else:
             films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('rating')
             genre = Genre.objects.get(pk=gp)
@@ -163,6 +170,13 @@ def sort_by_rating(request, ascending):
         elif gp == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('-rating')
             genre = 'Не понравилось'
+        elif gp == 'rus':
+            country_1 = Country.objects.get(title='СССР')
+            country_2 = Country.objects.get(title='Россия')
+            films_1 = Film.objects.filter(country=country_1.pk)
+            films_2 = Film.objects.filter(country=country_2.pk)
+            films = (films_1 | films_2).filter(recommendation=True).order_by('-rating')
+            genre = 'Русские / советские'
         else:
             films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('-rating')
             genre = Genre.objects.get(pk=gp)
@@ -186,6 +200,13 @@ def sort_by_year(request, ascending):
         elif gp == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('year')
             genre = 'Не понравилось'
+        elif gp == 'rus':
+            country_1 = Country.objects.get(title='СССР')
+            country_2 = Country.objects.get(title='Россия')
+            films_1 = Film.objects.filter(country=country_1.pk)
+            films_2 = Film.objects.filter(country=country_2.pk)
+            films = (films_1 | films_2).filter(recommendation=True).order_by('year')
+            genre = 'Русские / советские'
         else:
             films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('year')
             genre = Genre.objects.get(pk=gp)
@@ -199,6 +220,13 @@ def sort_by_year(request, ascending):
         elif gp == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('-year')
             genre = 'Не понравилось'
+        elif gp == 'rus':
+            country_1 = Country.objects.get(title='СССР')
+            country_2 = Country.objects.get(title='Россия')
+            films_1 = Film.objects.filter(country=country_1.pk)
+            films_2 = Film.objects.filter(country=country_2.pk)
+            films = (films_1 | films_2).filter(recommendation=True).order_by('-year')
+            genre = 'Русские / советские'
         else:
             films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('-year')
             genre = Genre.objects.get(pk=gp)
@@ -292,3 +320,19 @@ def my_profile(request, profile_id):
     title = f'{user.username}'
     context = {'comment': comment, 'title': title}
     return render(request, 'films/user_profile.html', context=context)
+
+
+def only_russians(request):
+    global gp
+    gp = 'rus'
+    country_1 = Country.objects.get(title='СССР')
+    country_2 = Country.objects.get(title='Россия')
+    films_1 = Film.objects.filter(country=country_1.pk)
+    films_2 = Film.objects.filter(country=country_2.pk)
+    films = (films_1 | films_2).filter(recommendation=True).order_by('-id')
+    title = 'Русские / советские'
+    paginator = Paginator(films, 6)
+    page_num = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_num)
+    context = {'page_obj': page_obj, 'films': films, 'title': title}
+    return render(request, 'films/index.html', context=context)
