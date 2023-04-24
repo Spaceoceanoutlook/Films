@@ -303,12 +303,21 @@ def search(request):
     films = Film.objects.all()
     if request.method == 'POST':
         user_search = request.POST.get('search')
-        for i in films:
-            if i.title.lower() == user_search.lower() or user_search.lower() in i.title.lower():
-                films = Film.objects.filter(title__icontains=f'{i.title}')
-                break
-        else:
+        if len(user_search) < 3:
             films = Film.objects.none()
+        else:
+            films_1 = Film.objects.filter(title__icontains=f'{user_search.lower()}')
+            films_2 = Film.objects.filter(title__icontains=f'{user_search.capitalize()}')
+            films = films_1.union(films_2)
+            list_films = []
+            for i in films:
+                title_film = i.title.lower().split()
+                if user_search.lower() in title_film:
+                    list_films.append(i.pk)
+                for j in title_film:
+                    if j.startswith(user_search.lower()):
+                        list_films.append(i.pk)
+            films = Film.objects.filter(pk__in=list_films)
     title = 'Поиск'
     context = {'films': films, 'title': title}
     return render(request, 'films/search.html', context=context)
