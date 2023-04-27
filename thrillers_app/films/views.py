@@ -300,8 +300,6 @@ def user_logout(request):
 
 
 def search(request):
-    films = Film.objects.all()
-    # if request.method == 'POST':
     user_search = request.GET.get('search')
     if len(user_search) < 3:
         films = Film.objects.none()
@@ -317,7 +315,7 @@ def search(request):
             for j in title_film:
                 if j.startswith(user_search.lower()):
                     list_films.append(i.pk)
-        films = Film.objects.filter(pk__in=list_films)
+        films = Film.objects.filter(pk__in=list_films) # делаем из списка queryset
     title = 'Поиск'
     context = {'films': films, 'title': title}
     return render(request, 'films/search.html', context=context)
