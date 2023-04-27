@@ -24,7 +24,7 @@ urlpatterns = [
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
     path('user_profile/<int:profile_id>/', my_profile, name='my_profile'),
-    path('search', search, name='search'),
+    path('search/', search, name='search'),
     path('only_russians/', only_russians, name='only_russians'),
 
 ]
