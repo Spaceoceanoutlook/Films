@@ -56,7 +56,6 @@
             </div>
             <div style="margin-left: 35px;">
                 <form method="get" action="{% url 'search' %}">
-                    {% csrf_token %}
                     <input type="text" autocomplete="off" placeholder="Искать" name="search">
                     <button type="submit">Поиск</button>
                 </form>

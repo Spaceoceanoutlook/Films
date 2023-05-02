@@ -6,12 +6,12 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
 
-gp = None
+default_genre = None
 
 
 def index(request):
-    global gp
-    gp = None
+    global default_genre
+    default_genre = None
     films = Film.objects.filter(recommendation=True).order_by('-id')
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -40,10 +40,10 @@ def film_detail(request, film_pk):
 
 
 def film_genre(request, genre_pk):
-    global gp
-    gp = genre_pk
+    global default_genre
+    default_genre = genre_pk
     films = Film.objects.filter(genre=genre_pk).filter(recommendation=True).order_by('-id')
-    genre = Genre.objects.get(pk=gp)
+    genre = Genre.objects.get(pk=default_genre)
     title = 'Фильмы и сериалы'
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -126,8 +126,8 @@ def clear_basket(request):
 
 
 def show_serials(request):
-    global gp
-    gp = 'serials'
+    global default_genre
+    default_genre = 'serials'
     title = 'Сериалы'
     films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('-id')
     genre = 'Сериалы'
@@ -139,18 +139,18 @@ def show_serials(request):
 
 
 def sort_by_rating(request, ascending):
-    global gp
+    global default_genre
     if ascending == 1:
-        if gp is None:
+        if default_genre is None:
             films = Film.objects.filter(recommendation=True).order_by('rating')
             genre = Genre.objects.none()
-        elif gp == 'serials':
+        elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('rating')
             genre = 'Сериалы'
-        elif gp == 'not_like':
+        elif default_genre == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('rating')
             genre = 'Не понравилось'
-        elif gp == 'rus':
+        elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
             films_1 = Film.objects.filter(country=country_1.pk)
@@ -158,19 +158,19 @@ def sort_by_rating(request, ascending):
             films = (films_1 | films_2).filter(recommendation=True).order_by('rating')
             genre = 'Русские / советские'
         else:
-            films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('rating')
-            genre = Genre.objects.get(pk=gp)
+            films = Film.objects.filter(recommendation=True).filter(genre=default_genre).order_by('rating')
+            genre = Genre.objects.get(pk=default_genre)
     else:
-        if gp is None:
+        if default_genre is None:
             films = Film.objects.filter(recommendation=True).order_by('-rating')
             genre = Genre.objects.none()
-        elif gp == 'serials':
+        elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('-rating')
             genre = 'Сериалы'
-        elif gp == 'not_like':
+        elif default_genre == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('-rating')
             genre = 'Не понравилось'
-        elif gp == 'rus':
+        elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
             films_1 = Film.objects.filter(country=country_1.pk)
@@ -178,8 +178,8 @@ def sort_by_rating(request, ascending):
             films = (films_1 | films_2).filter(recommendation=True).order_by('-rating')
             genre = 'Русские / советские'
         else:
-            films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('-rating')
-            genre = Genre.objects.get(pk=gp)
+            films = Film.objects.filter(recommendation=True).filter(genre=default_genre).order_by('-rating')
+            genre = Genre.objects.get(pk=default_genre)
     title = 'Фильмы и сериалы'
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -189,18 +189,18 @@ def sort_by_rating(request, ascending):
 
 
 def sort_by_year(request, ascending):
-    global gp
+    global default_genre
     if ascending == 1:
-        if gp is None:
+        if default_genre is None:
             films = Film.objects.filter(recommendation=True).order_by('year')
             genre = Genre.objects.none()
-        elif gp == 'serials':
+        elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('year')
             genre = 'Сериалы'
-        elif gp == 'not_like':
+        elif default_genre == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('year')
             genre = 'Не понравилось'
-        elif gp == 'rus':
+        elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
             films_1 = Film.objects.filter(country=country_1.pk)
@@ -208,19 +208,19 @@ def sort_by_year(request, ascending):
             films = (films_1 | films_2).filter(recommendation=True).order_by('year')
             genre = 'Русские / советские'
         else:
-            films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('year')
-            genre = Genre.objects.get(pk=gp)
+            films = Film.objects.filter(recommendation=True).filter(genre=default_genre).order_by('year')
+            genre = Genre.objects.get(pk=default_genre)
     else:
-        if gp is None:
+        if default_genre is None:
             films = Film.objects.filter(recommendation=True).order_by('-year')
             genre = Genre.objects.none()
-        elif gp == 'serials':
+        elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').filter(recommendation=True).order_by('-year')
             genre = 'Сериалы'
-        elif gp == 'not_like':
+        elif default_genre == 'not_like':
             films = Film.objects.filter(recommendation=False).order_by('-year')
             genre = 'Не понравилось'
-        elif gp == 'rus':
+        elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
             films_1 = Film.objects.filter(country=country_1.pk)
@@ -228,8 +228,8 @@ def sort_by_year(request, ascending):
             films = (films_1 | films_2).filter(recommendation=True).order_by('-year')
             genre = 'Русские / советские'
         else:
-            films = Film.objects.filter(recommendation=True).filter(genre=gp).order_by('-year')
-            genre = Genre.objects.get(pk=gp)
+            films = Film.objects.filter(recommendation=True).filter(genre=default_genre).order_by('-year')
+            genre = Genre.objects.get(pk=default_genre)
     title = 'Фильмы и сериалы'
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
@@ -251,8 +251,8 @@ def random_film(request):
 
 
 def show_not_like(request):
-    global gp
-    gp = 'not_like'
+    global default_genre
+    default_genre = 'not_like'
     films = Film.objects.filter(recommendation=False).order_by('-id')
     title = 'Не понравилось'
     genre = 'Не понравилось'
@@ -330,8 +330,8 @@ def my_profile(request, profile_id):
 
 
 def only_russians(request):
-    global gp
-    gp = 'rus'
+    global default_genre
+    default_genre = 'rus'
     country_1 = Country.objects.get(title='СССР')
     country_2 = Country.objects.get(title='Россия')
     films_1 = Film.objects.filter(country=country_1.pk)
@@ -346,8 +346,8 @@ def only_russians(request):
 
 
 def country_films(request, pk):
-    global gp
-    gp = None
+    global default_genre
+    default_genre = None
     films = Film.objects.filter(country=pk).filter(recommendation=True).order_by('-id')
     country = Country.objects.get(pk=pk)
     title = 'Фильмы и сериалы'
