@@ -79,7 +79,14 @@
             Категория: Все категории
             {% endif %}
             <br>
-            Всего: {{ films.count }}</p>
+            Всего: {{ films.count }}
+            <br>
+            {% if country %}
+            Страна: {{ country }}
+            {% endif %}
+            <br>
+        </p>
+
         <div class="container">
             {% for film in page_obj %}
             <div class="img_film">

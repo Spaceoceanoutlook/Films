@@ -343,3 +343,16 @@ def only_russians(request):
     page_obj = paginator.get_page(page_num)
     context = {'page_obj': page_obj, 'films': films, 'title': title}
     return render(request, 'films/index.html', context=context)
+
+
+def country_films(request, pk):
+    global gp
+    gp = None
+    films = Film.objects.filter(country=pk).filter(recommendation=True).order_by('-id')
+    country = Country.objects.get(pk=pk)
+    title = 'Фильмы и сериалы'
+    paginator = Paginator(films, 6)
+    page_num = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_num)
+    context = {'page_obj': page_obj, 'films': films, 'title': title, 'country': country}
+    return render(request, 'films/index.html', context=context)

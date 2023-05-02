@@ -13,7 +13,7 @@
         <p>{{ film.year }}</p>
         <p><em>Страна</em>
             {% for c in film.country.all %}
-            {{ c.title }}
+            <a href="{% url 'country_films' pk=c.pk %}">{{ c.title }}</a>
             {% endfor %}
         </p>
         <p><em>Жанр</em>
