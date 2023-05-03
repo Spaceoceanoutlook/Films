@@ -13,13 +13,12 @@
     <header class="header">
         <div class="createfilm">
             <a style="margin-right: 10px; font-size: 24px;" href="{% url 'index' %}">Главная</a>
-            <a style="margin-left: 5px; margin-right: 20px; font-size: 24px;" href="{% url 'show_basket' %}">Мое избранное</a>
+            <a style="margin-left: 15px; margin-right: 40px; font-size: 24px;" href="{% url 'show_basket' %}">Мое избранное</a>
             {% get_genre as genres %}
             {% for genre in genres %}
             <a style="margin-right: 5px; font-size: 20px;" href="{% url 'film_genre' genre_pk=genre.pk %}">{{ genre }}</a>
             {% endfor %}
-            <a style="margin-right: 5px;" href="{% url 'show_serials' %}">Сериалы</a>
-            <a style="margin-right: 5px; font-size: 20px;" href="{% url 'show_not_like' %}">Не понравилось</a>
+            <a style="margin-right: 15px;" href="{% url 'show_serials' %}">Сериалы</a>
             {% if request.user.is_authenticated %}
                 Привет, {{ user.username }} |
                 <a href="{% url 'logout' %}">Выйти</a>
@@ -27,6 +26,8 @@
             <a style="margin-right: 5px; font-size: 18px; color: blue" href="{% url 'register' %}">Регистрация</a>
             <a style="margin-right: 5px; font-size: 18px; color: blue" href="{% url 'login' %}">Вход</a>
             {% endif %}
+        <a style="margin-left: 15px; font-size: 15px; color: blue; font-weight: bold; border: none"
+                        href="{% url 'analytics' %}">Аналитика</a>
         </div>
         {% block page %}
         <div style="display: flex; justify-content: center;">

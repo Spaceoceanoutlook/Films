@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Аналитика</title>
+</head>
+<body>
+    <h1>Аналитика по странам</h1>
+    {% for i in analytics_country %}
+    <p>{{ i.2 }} фильмов - {{ i.1 }}, что соответствует примерно {{ i.0 }}% от всех фильмов</p>
+    {% endfor %}
+    <p><a href="#" onclick="history.back();">Назад</a></p>
+</body>
+</html>

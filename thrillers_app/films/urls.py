@@ -1,7 +1,7 @@
 from django.urls import path
 from .views import index, film_detail, film_genre, delete_comment, show_basket, \
     add_basket, delete_from_basket, clear_basket, show_serials, sort_by_rating, sort_by_year, random_film, \
-    show_not_like, register, user_login, user_logout, my_profile, search, only_russians, country_films
+    register, user_login, user_logout, my_profile, search, only_russians, country_films, analytics
 
 urlpatterns = [
     path('', index, name='index'),
@@ -19,7 +19,6 @@ urlpatterns = [
     path('sort_by_rating/<int:ascending>/', sort_by_rating, name='sort_by_rating'),
     path('sort_by_year/<int:ascending>/', sort_by_year, name='sort_by_year'),
     path('random_film/', random_film, name='random_film'),
-    path('show_not_like/', show_not_like, name='show_not_like'),
     path('register/', register, name='register'),
     path('login/', user_login, name='login'),
     path('logout/', user_logout, name='logout'),
@@ -27,5 +26,6 @@ urlpatterns = [
     path('search/', search, name='search'),
     path('only_russians/', only_russians, name='only_russians'),
     path('country_films/<int:pk>/', country_films, name='country_films'),
+    path('analytics/', analytics, name='analytics'),
 
 ]
