@@ -5,6 +5,7 @@ from films.models import Film, Comment, Genre, Basket, Country
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
+from films.service import service_analytics
 
 default_genre = None
 
@@ -346,15 +347,7 @@ def country_films(request, pk):
 
 
 def analytics(request):
-    films = Film.objects.all()
-    country = Country.objects.all()
-    analytics_country = []
-    for i in country:
-        num_country = Country.objects.get(pk=i.pk)
-        f = Film.objects.filter(country=num_country)
-        res = len(f) / len(films) * 100
-        a = (int(res), i.title, len(f))
-        analytics_country.append(a)
-    context = {'analytics_country': sorted(analytics_country, reverse=True)}
+    middle_rating, analytics_country = service_analytics()
+    context = {'analytics_country': analytics_country, 'middle_rating': middle_rating}
     return render(request, 'films/analytics.html', context=context)
 
