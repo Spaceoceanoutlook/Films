@@ -5,15 +5,13 @@ from films.models import Film, Comment, Genre, Basket, Country
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from films.service import service_analytics
+from films.service import service_analytics, service_index
 
 default_genre = None
 
 
 def index(request):
-    global default_genre
-    default_genre = None
-    films = Film.objects.all().order_by('-id')
+    films = service_index()
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
     page_obj = paginator.get_page(page_num)

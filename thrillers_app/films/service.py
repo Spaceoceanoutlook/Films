@@ -1,4 +1,12 @@
 from films.models import Film, Country
+default_genre = None
+
+
+def service_index():
+    global default_genre
+    default_genre = None
+    films = Film.objects.all().order_by('-id')
+    return films
 
 
 def service_analytics():
