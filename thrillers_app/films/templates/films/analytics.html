@@ -5,11 +5,12 @@
     <title>Аналитика</title>
 </head>
 <body>
-    <p style="font-size: 25px;">Средний рейтинг - {{ middle_rating }}</p>
-    <p style="font-size: 25px;">Фильмы и сериалы по странам:</p>
+    <p><a href="#" onclick="history.back();">Назад</a></p>
+    <p style="font-size: 22px;">Количество фильмов и сериалов - {{ count_films }}</p>
+    <p style="font-size: 22px;">Средний рейтинг - {{ middle_rating }}</p>
+    <p style="font-size: 22px;">Фильмы и сериалы по странам:</p>
     {% for i in analytics_country %}
     <p>{{ i.1 }} - {{ i.2 }} ({{ i.0 }}%)</p>
     {% endfor %}
-    <p><a href="#" onclick="history.back();">Назад</a></p>
 </body>
 </html>

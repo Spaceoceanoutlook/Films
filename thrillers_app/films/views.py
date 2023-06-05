@@ -146,9 +146,6 @@ def sort_by_rating(request, ascending):
         elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').order_by('rating')
             genre = 'Сериалы'
-        elif default_genre == 'not_like':
-            films = Film.objects.all().order_by('rating')
-            genre = 'Не понравилось'
         elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
@@ -166,9 +163,6 @@ def sort_by_rating(request, ascending):
         elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').order_by('-rating')
             genre = 'Сериалы'
-        elif default_genre == 'not_like':
-            films = Film.objects.all().order_by('-rating')
-            genre = 'Не понравилось'
         elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
@@ -196,9 +190,6 @@ def sort_by_year(request, ascending):
         elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').order_by('year')
             genre = 'Сериалы'
-        elif default_genre == 'not_like':
-            films = Film.objects.all().order_by('year')
-            genre = 'Не понравилось'
         elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
@@ -216,9 +207,6 @@ def sort_by_year(request, ascending):
         elif default_genre == 'serials':
             films = Film.objects.filter(title__icontains='Сериал').order_by('-year')
             genre = 'Сериалы'
-        elif default_genre == 'not_like':
-            films = Film.objects.all().order_by('-year')
-            genre = 'Не понравилось'
         elif default_genre == 'rus':
             country_1 = Country.objects.get(title='СССР')
             country_2 = Country.objects.get(title='Россия')
@@ -345,7 +333,7 @@ def country_films(request, pk):
 
 
 def analytics(request):
-    middle_rating, analytics_country = service_analytics()
-    context = {'analytics_country': analytics_country, 'middle_rating': middle_rating}
+    middle_rating, analytics_country, count_films = service_analytics()
+    context = {'analytics_country': analytics_country, 'middle_rating': middle_rating, 'count_films': count_films}
     return render(request, 'films/analytics.html', context=context)
 

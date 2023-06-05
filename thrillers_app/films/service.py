@@ -24,4 +24,4 @@ def service_analytics():
         all_rating += film.rating
     middle_rating = round((all_rating / len(films)), 2)
     analytics_country = sorted(analytics_country, reverse=True)
-    return middle_rating, analytics_country
+    return middle_rating, analytics_country, len(films)
