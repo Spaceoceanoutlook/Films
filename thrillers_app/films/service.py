@@ -1,4 +1,4 @@
-from films.models import Film, Country
+from .models import Film, Country
 default_genre = None
 
 
@@ -25,3 +25,15 @@ def service_analytics():
     middle_rating = round((all_rating / len(films)), 2)
     analytics_country = sorted(analytics_country, reverse=True)
     return middle_rating, analytics_country, len(films)
+
+
+def service_year():
+    films = Film.objects.all()
+    count_year = {}
+    for film in films:
+        if film.year not in count_year:
+            count_year[film.year] = 1
+        else:
+            count_year[film.year] += 1
+    sort_dict = dict(sorted(count_year.items(), key=lambda item: item[1], reverse=True))
+    return sort_dict

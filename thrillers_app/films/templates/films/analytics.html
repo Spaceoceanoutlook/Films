@@ -12,5 +12,9 @@
     {% for i in analytics_country %}
     <p>{{ i.1 }} - {{ i.2 }} ({{ i.0 }}%)</p>
     {% endfor %}
+    <p style="font-size: 22px;">Фильмы и сериалы по году выпуска:</p>
+    {% for key, values in sort_dict.items %}
+    <p> {{ key }} - {{ values }}</p>
+    {% endfor %}
 </body>
 </html>

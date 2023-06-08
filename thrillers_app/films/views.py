@@ -1,11 +1,11 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render, redirect, get_object_or_404
-from films.forms import CommentForm, UserRegForm, UserLoginForm
-from films.models import Film, Comment, Genre, Basket, Country
+from .forms import CommentForm, UserRegForm, UserLoginForm
+from .models import Film, Comment, Genre, Basket, Country
 from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.models import User
-from films.service import service_analytics, service_index
+from .service import service_analytics, service_index, service_year
 
 default_genre = None
 
@@ -289,7 +289,7 @@ def search(request):
             for j in title_film:
                 if j.startswith(user_search.lower()):
                     list_films.append(i.pk)
-        films = Film.objects.filter(pk__in=list_films) # делаем из списка queryset
+        films = Film.objects.filter(pk__in=list_films)  # делаем из списка queryset
     title = 'Поиск'
     context = {'films': films, 'title': title}
     return render(request, 'films/search.html', context=context)
@@ -334,6 +334,7 @@ def country_films(request, pk):
 
 def analytics(request):
     middle_rating, analytics_country, count_films = service_analytics()
-    context = {'analytics_country': analytics_country, 'middle_rating': middle_rating, 'count_films': count_films}
+    sort_dict = service_year()
+    context = {'analytics_country': analytics_country, 'middle_rating': middle_rating,
+               'count_films': count_films, 'sort_dict': sort_dict}
     return render(request, 'films/analytics.html', context=context)
-
