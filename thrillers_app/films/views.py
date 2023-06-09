@@ -106,7 +106,7 @@ def show_basket(request):
     basket = Basket.objects.filter(user=request.user).first()
     if basket is None:
         basket = Basket.objects.create(user=request.user)
-    film = basket.films.all()
+    film = basket.films.filter().order_by('-rating')
     title = 'Избранное'
     context = {'film': film, 'title': title}
     return render(request, 'films/basket.html', context=context)

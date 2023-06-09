@@ -11,20 +11,22 @@
 
 <div class="container">
     {% for i in film %}
-    <div class="img_film">
-        {% if i.photo %}
-        <a style="border: none;" href="{{ i.get_absolute_url }}">
-            <img class="img_size" src="{{ i.photo.url }}">
-        </a>
+    <div style="margin-bottom: 90px;">
+        <div class="img_film">
+            {% if i.photo %}
+            <a style="border: none;" href="{{ i.get_absolute_url }}">
+                <img class="img_size" src="{{ i.photo.url }}">
+            </a>
 
-        {% else %}
-                <p>NO FOTO__________</p>
-        {% endif %}
-        <a style="color: #0000ff; font-size: 20px; font-weight: bold;" href="{{ i.get_absolute_url }}"><p>{{ i.title }}</p></a>
-        <p>Год: {{ i.year }}</p>
-        <p>Рейтинг: {{ i.rating }}</p>
-        <br>
-        <a style="border: none;" href="{% url 'delete_from_basket' film_pk=i.pk %}">Удалить</a>
+            {% else %}
+                    <p>NO FOTO__________</p>
+            {% endif %}
+            <a style="color: #0000ff; font-size: 20px; font-weight: bold;" href="{{ i.get_absolute_url }}"><p>{{ i.title }}</p></a>
+            <p>Год: {{ i.year }}</p>
+            <p>Рейтинг: {{ i.rating }}</p>
+            <br>
+            <a style="border: none;" href="{% url 'delete_from_basket' film_pk=i.pk %}">Удалить</a>
+        </div>
     </div>
     <br>
     {% empty %}
