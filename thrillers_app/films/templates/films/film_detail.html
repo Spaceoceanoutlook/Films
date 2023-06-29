@@ -10,7 +10,7 @@
     {% endif %}
     <div style="font-size: 20px;">
         <h1>{{ film.title }}</h1>
-        <p>{{ film.year }}</p>
+        <p>Год <a href="{% url 'year_films' pk=film.year%}">{{ film.year }}</a></p>
         <p><em>Страна</em>
             {% for c in film.country.all %}
             <a href="{% url 'country_films' pk=c.pk %}">{{ c.title }}</a>

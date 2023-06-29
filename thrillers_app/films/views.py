@@ -338,3 +338,16 @@ def analytics(request):
     context = {'analytics_country': analytics_country, 'middle_rating': middle_rating,
                'count_films': count_films, 'sort_dict': sort_dict}
     return render(request, 'films/analytics.html', context=context)
+
+
+def year_films(request, pk):
+    global default_genre
+    default_genre = None
+    films = Film.objects.filter(year=pk).order_by('-id')
+    title = 'Фильмы и сериалы'
+    title_year = f'Все фильмы {pk} года'
+    paginator = Paginator(films, 6)
+    page_num = request.GET.get('page', 1)
+    page_obj = paginator.get_page(page_num)
+    context = {'page_obj': page_obj, 'films': films, 'title': title, 'title_year': title_year}
+    return render(request, 'films/index.html', context=context)
