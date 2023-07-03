@@ -11,6 +11,8 @@ default_genre = None
 
 
 def index(request):
+    global default_genre
+    default_genre = None
     films = service_index()
     paginator = Paginator(films, 6)
     page_num = request.GET.get('page', 1)
