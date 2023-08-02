@@ -1,5 +1,3 @@
 /venv/
 /.idea/
-db.sqlite3
-thrillers_app/films/static/films/img/
 **/__pycache__/
