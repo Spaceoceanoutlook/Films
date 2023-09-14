@@ -13,7 +13,9 @@
     <header class="header">
         <div class="createfilm">
             <a style="margin-right: 10px; font-size: 24px;" href="{% url 'index' %}">Главная</a>
+            {% if request.user.id %}
             <a style="margin-left: 15px; margin-right: 40px; font-size: 24px;" href="{% url 'show_basket' %}">Мое избранное</a>
+            {% endif %}
             {% get_genre as genres %}
             {% for genre in genres %}
             <a style="margin-right: 5px; font-size: 20px;" href="{% url 'film_genre' genre_pk=genre.pk %}">{{ genre }}</a>
