@@ -32,9 +32,11 @@
     <div style="display: flex; align-items: center; flex-direction: column; padding-top: 50px;font-size: 20px;">
         <p><a href="#" onclick="history.back();">Назад</a></p>
         <br>
+        {% if request.user.id %}
         <p><a href="{% url 'add_basket' film_pk=film.pk %}">Добавить в избранное</a></p>
         <br>
         <p><a href="{% url 'show_basket' %}">Перейти в избранное</a></p>
+        {% endif %}
     </div>
 {% if request.user.is_authenticated %}
 <div style="margin-left: 20px; font-size: 18px;">
