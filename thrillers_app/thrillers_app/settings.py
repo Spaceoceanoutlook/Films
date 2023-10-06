@@ -26,6 +26,7 @@ SECRET_KEY = 'django-insecure-5$zma1s=w^kh$j2#%qot*8nwjc10fl-$rje^mz*gjs3!(1*-0@
 DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
+INTERNAL_IPS = ["127.0.0.1"]
 
 
 # Application definition
@@ -38,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'films.apps.FilmsConfig',
-    'captcha'
+    'captcha',
+    'debug_toolbar',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 ]
 
 ROOT_URLCONF = 'thrillers_app.urls'
